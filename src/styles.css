@@ -157,3 +157,23 @@
     color: var(--color-foreground);
   }
 }
+
+@utility bg-gradient-warm {
+  background-image: var(--gradient-warm);
+}
+
+@utility bg-gradient-fresh {
+  background-image: var(--gradient-fresh);
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
