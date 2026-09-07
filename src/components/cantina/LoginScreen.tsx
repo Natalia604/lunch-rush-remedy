@@ -35,8 +35,9 @@ export function LoginScreen({
     }
     setError("");
     const display =
-      mode === "registro" ? name.trim().split(" ")[0] : cleanEmail.split("@")[0];
+      (mode === "registro" ? name.trim().split(" ")[0] : cleanEmail.split("@")[0]) ?? "Alumno";
     onStudent(display.charAt(0).toUpperCase() + display.slice(1));
+
   };
 
   return (
