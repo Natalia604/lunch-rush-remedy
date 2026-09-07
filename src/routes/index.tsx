@@ -1,12 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, ShoppingCart, Minus, Plus, Trash2, CheckCircle2, UtensilsCrossed } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Minus,
+  Plus,
+  Trash2,
+  CheckCircle2,
+  UtensilsCrossed,
+  LogOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ProductCard } from "@/components/cantina/ProductCard";
 import { AdminPanel } from "@/components/cantina/AdminPanel";
+import { LoginScreen } from "@/components/cantina/LoginScreen";
+
 import {
   categories,
   formatPrice,
