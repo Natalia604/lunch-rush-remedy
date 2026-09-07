@@ -350,7 +350,9 @@ function Index() {
               products={products}
               onAdvance={advance}
               onStock={updateStock}
+              onCreate={createProduct}
             />
+
           </div>
         ) : (
           <div className="space-y-8 pt-8">
