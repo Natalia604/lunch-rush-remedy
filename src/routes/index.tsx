@@ -150,8 +150,34 @@ function Index() {
       ),
     );
 
+  const createProduct = (p: Omit<Product, "id">) =>
+    setProducts((prev) => [{ ...p, id: `p${Date.now()}` }, ...prev]);
+
+  const signOut = () => {
+    setSession(null);
+    setCart([]);
+    setTicket(null);
+    setCartOpen(false);
+  };
+
+  if (!session) {
+    return (
+      <LoginScreen
+        onStudent={(name) => {
+          setSession({ role: "alumno", name });
+          setView("alumno");
+        }}
+        onStaff={() => {
+          setSession({ role: "cantina", name: "Cantina" });
+          setView("cantina");
+        }}
+      />
+    );
+  }
+
   return (
     <main className="min-h-screen bg-background pb-16">
+
       <header className="bg-gradient-warm px-4 pb-10 pt-6 text-primary-foreground shadow-soft sm:px-6">
         <div className="mx-auto max-w-6xl space-y-6">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
