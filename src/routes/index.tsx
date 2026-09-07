@@ -209,6 +209,16 @@ function Index() {
                 </button>
               </div>
 
+              <button
+                onClick={signOut}
+                aria-label="Cerrar sesión"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-card/25 transition-colors hover:bg-card/40"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+
+
+
               {view === "alumno" && (
                 <Sheet open={cartOpen} onOpenChange={setCartOpen}>
                   <SheetTrigger asChild>
