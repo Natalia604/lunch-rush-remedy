@@ -52,6 +52,7 @@ export const Route = createFileRoute("/")({
 type CartLine = { product: Product; qty: number };
 
 function Index() {
+  const [session, setSession] = useState<{ role: "alumno" | "cantina"; name: string } | null>(null);
   const [view, setView] = useState<"alumno" | "cantina">("alumno");
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [orders, setOrders] = useState<Order[]>(initialOrders);
@@ -63,7 +64,8 @@ function Index() {
   const [cartOpen, setCartOpen] = useState(false);
   const [ticket, setTicket] = useState<Order | null>(null);
 
-  const student = "Natalia";
+  const student = session?.name ?? "Alumno";
+
 
   const visible = useMemo(
     () =>
