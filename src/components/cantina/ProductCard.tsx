@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { categoryImage, formatPrice, stockState, type Product } from "@/lib/cantina-data";
+import { formatPrice, stockState, type Product } from "@/lib/cantina-data";
+
 
 export function ProductCard({
   product,
@@ -26,10 +27,11 @@ export function ProductCard({
 
   return (
     <article className="group overflow-hidden rounded-3xl border bg-card shadow-card transition-transform duration-200 hover:-translate-y-1">
-      <div className="relative h-36 overflow-hidden bg-muted">
+      <div className="relative h-40 overflow-hidden bg-muted sm:h-44">
         <img
-          src={categoryImage[product.category]}
+          src={product.image}
           alt={product.name}
+
           loading="lazy"
           width={768}
           height={512}
