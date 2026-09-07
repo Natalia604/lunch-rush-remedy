@@ -1,9 +1,25 @@
 import panaderia from "@/assets/panaderia.jpg";
 import minutas from "@/assets/minutas.jpg";
 import bebidas from "@/assets/bebidas.jpg";
-import postres from "@/assets/postres.jpg";
+import golosinasImg from "@/assets/cat-golosinas.jpg";
 
-export type CategoryId = "panaderia" | "minutas" | "bebidas" | "postres";
+import imgEmpanada from "@/assets/prod-empanada.jpg";
+import imgCroissant from "@/assets/prod-croissant.jpg";
+import imgMedialunas from "@/assets/prod-medialunas.jpg";
+import imgTostado from "@/assets/prod-tostado.jpg";
+import imgSandwichMila from "@/assets/prod-sandwich-mila.jpg";
+import imgMilaPure from "@/assets/prod-mila-pure.jpg";
+import imgEnsalada from "@/assets/prod-ensalada.jpg";
+import imgJugo from "@/assets/prod-jugo.jpg";
+import imgAgua from "@/assets/prod-agua.jpg";
+import imgCafe from "@/assets/prod-cafe.jpg";
+import imgGaseosa from "@/assets/prod-gaseosa.jpg";
+import imgAlfajor from "@/assets/prod-alfajor.jpg";
+import imgBombones from "@/assets/prod-bombones.jpg";
+import imgTorta from "@/assets/prod-torta.jpg";
+import imgGalletitas from "@/assets/prod-galletitas.jpg";
+
+export type CategoryId = "panaderia" | "minutas" | "bebidas" | "golosinas";
 
 export const categories: {
   id: CategoryId;
@@ -11,17 +27,17 @@ export const categories: {
   emoji: string;
   image: string;
 }[] = [
-  { id: "panaderia", label: "Desayunos / Panadería", emoji: "🥐", image: panaderia },
-  { id: "minutas", label: "Minutas / Almuerzos", emoji: "🥪", image: minutas },
+  { id: "panaderia", label: "Panadería", emoji: "🥐", image: panaderia },
+  { id: "minutas", label: "Minutas", emoji: "🥪", image: minutas },
   { id: "bebidas", label: "Bebidas", emoji: "🥤", image: bebidas },
-  { id: "postres", label: "Postres", emoji: "🍫", image: postres },
+  { id: "golosinas", label: "Golosinas", emoji: "🍫", image: golosinasImg },
 ];
 
 export const categoryImage: Record<CategoryId, string> = {
   panaderia,
   minutas,
   bebidas,
-  postres,
+  golosinas: golosinasImg,
 };
 
 export type Product = {
@@ -32,6 +48,7 @@ export type Product = {
   category: CategoryId;
   emoji: string;
   stock: number;
+  image: string;
 };
 
 export const initialProducts: Product[] = [
@@ -43,6 +60,7 @@ export const initialProducts: Product[] = [
     category: "panaderia",
     emoji: "🥐",
     stock: 12,
+    image: imgCroissant,
   },
   {
     id: "p2",
@@ -52,6 +70,7 @@ export const initialProducts: Product[] = [
     category: "panaderia",
     emoji: "🥐",
     stock: 3,
+    image: imgMedialunas,
   },
   {
     id: "p3",
@@ -61,6 +80,7 @@ export const initialProducts: Product[] = [
     category: "panaderia",
     emoji: "🍞",
     stock: 8,
+    image: imgTostado,
   },
   {
     id: "p4",
@@ -70,6 +90,7 @@ export const initialProducts: Product[] = [
     category: "minutas",
     emoji: "🥟",
     stock: 24,
+    image: imgEmpanada,
   },
   {
     id: "p5",
@@ -79,6 +100,7 @@ export const initialProducts: Product[] = [
     category: "minutas",
     emoji: "🥪",
     stock: 2,
+    image: imgSandwichMila,
   },
   {
     id: "p6",
@@ -88,6 +110,7 @@ export const initialProducts: Product[] = [
     category: "minutas",
     emoji: "🍽️",
     stock: 0,
+    image: imgMilaPure,
   },
   {
     id: "p7",
@@ -97,6 +120,7 @@ export const initialProducts: Product[] = [
     category: "minutas",
     emoji: "🥗",
     stock: 6,
+    image: imgEnsalada,
   },
   {
     id: "p8",
@@ -106,6 +130,7 @@ export const initialProducts: Product[] = [
     category: "bebidas",
     emoji: "🧃",
     stock: 15,
+    image: imgJugo,
   },
   {
     id: "p9",
@@ -115,6 +140,7 @@ export const initialProducts: Product[] = [
     category: "bebidas",
     emoji: "💧",
     stock: 30,
+    image: imgAgua,
   },
   {
     id: "p10",
@@ -124,33 +150,57 @@ export const initialProducts: Product[] = [
     category: "bebidas",
     emoji: "☕",
     stock: 3,
+    image: imgCafe,
   },
   {
     id: "p11",
-    name: "Bombones artesanales x4",
-    description: "Chocolate semiamargo relleno de dulce de leche.",
-    price: 14000,
-    category: "postres",
-    emoji: "🍫",
-    stock: 9,
+    name: "Gaseosa fría 500 ml",
+    description: "Bien helada, con hielo si querés.",
+    price: 8000,
+    category: "bebidas",
+    emoji: "🥤",
+    stock: 18,
+    image: imgGaseosa,
   },
   {
     id: "p12",
-    name: "Alfajor de maicena",
-    description: "Con coco rallado y mucho dulce de leche.",
-    price: 8000,
-    category: "postres",
-    emoji: "🍪",
-    stock: 1,
+    name: "Bombones artesanales x4",
+    description: "Chocolate semiamargo relleno de dulce de leche.",
+    price: 14000,
+    category: "golosinas",
+    emoji: "🍫",
+    stock: 9,
+    image: imgBombones,
   },
   {
     id: "p13",
+    name: "Alfajor de maicena",
+    description: "Con coco rallado y mucho dulce de leche.",
+    price: 8000,
+    category: "golosinas",
+    emoji: "🍪",
+    stock: 1,
+    image: imgAlfajor,
+  },
+  {
+    id: "p14",
+    name: "Galletitas Niquito",
+    description: "Paquete clásico para el recreo.",
+    price: 4000,
+    category: "golosinas",
+    emoji: "🍪",
+    stock: 20,
+    image: imgGalletitas,
+  },
+  {
+    id: "p15",
     name: "Porción de torta",
     description: "Chocolate húmedo con crema.",
     price: 16000,
-    category: "postres",
+    category: "golosinas",
     emoji: "🍰",
     stock: 0,
+    image: imgTorta,
   },
 ];
 

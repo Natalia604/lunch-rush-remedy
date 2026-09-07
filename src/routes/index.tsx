@@ -1,12 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, ShoppingCart, Minus, Plus, Trash2, CheckCircle2, UtensilsCrossed } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Minus,
+  Plus,
+  Trash2,
+  CheckCircle2,
+  UtensilsCrossed,
+  LogOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ProductCard } from "@/components/cantina/ProductCard";
 import { AdminPanel } from "@/components/cantina/AdminPanel";
+import { LoginScreen } from "@/components/cantina/LoginScreen";
+
 import {
   categories,
   formatPrice,
@@ -41,6 +52,7 @@ export const Route = createFileRoute("/")({
 type CartLine = { product: Product; qty: number };
 
 function Index() {
+  const [session, setSession] = useState<{ role: "alumno" | "cantina"; name: string } | null>(null);
   const [view, setView] = useState<"alumno" | "cantina">("alumno");
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [orders, setOrders] = useState<Order[]>(initialOrders);
@@ -52,7 +64,8 @@ function Index() {
   const [cartOpen, setCartOpen] = useState(false);
   const [ticket, setTicket] = useState<Order | null>(null);
 
-  const student = "Natalia";
+  const student = session?.name ?? "Alumno";
+
 
   const visible = useMemo(
     () =>
@@ -137,8 +150,34 @@ function Index() {
       ),
     );
 
+  const createProduct = (p: Omit<Product, "id">) =>
+    setProducts((prev) => [{ ...p, id: `p${Date.now()}` }, ...prev]);
+
+  const signOut = () => {
+    setSession(null);
+    setCart([]);
+    setTicket(null);
+    setCartOpen(false);
+  };
+
+  if (!session) {
+    return (
+      <LoginScreen
+        onStudent={(name) => {
+          setSession({ role: "alumno", name });
+          setView("alumno");
+        }}
+        onStaff={() => {
+          setSession({ role: "cantina", name: "Cantina" });
+          setView("cantina");
+        }}
+      />
+    );
+  }
+
   return (
     <main className="min-h-screen bg-background pb-16">
+
       <header className="bg-gradient-warm px-4 pb-10 pt-6 text-primary-foreground shadow-soft sm:px-6">
         <div className="mx-auto max-w-6xl space-y-6">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
@@ -169,6 +208,16 @@ function Index() {
                   Cantina
                 </button>
               </div>
+
+              <button
+                onClick={signOut}
+                aria-label="Cerrar sesión"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-card/25 transition-colors hover:bg-card/40"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+
+
 
               {view === "alumno" && (
                 <Sheet open={cartOpen} onOpenChange={setCartOpen}>
@@ -311,7 +360,9 @@ function Index() {
               products={products}
               onAdvance={advance}
               onStock={updateStock}
+              onCreate={createProduct}
             />
+
           </div>
         ) : (
           <div className="space-y-8 pt-8">
