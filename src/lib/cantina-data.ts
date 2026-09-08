@@ -204,7 +204,7 @@ export const initialProducts: Product[] = [
   },
 ];
 
-export type OrderStatus = "pendiente" | "preparacion" | "listo";
+export type OrderStatus = "pendiente" | "preparacion" | "listo" | "entregado";
 
 export type Order = {
   id: string;
@@ -217,6 +217,7 @@ export type Order = {
   status: OrderStatus;
   time: string;
 };
+
 
 export const initialOrders: Order[] = [
   {
