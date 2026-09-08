@@ -49,7 +49,9 @@ export type Product = {
   emoji: string;
   stock: number;
   image: string;
+  minStock?: number;
 };
+
 
 export const initialProducts: Product[] = [
   {
