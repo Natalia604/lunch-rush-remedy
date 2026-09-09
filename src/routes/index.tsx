@@ -21,13 +21,12 @@ import { LoginScreen } from "@/components/cantina/LoginScreen";
 import {
   categories,
   formatPrice,
-  initialOrders,
-  initialProducts,
   type CategoryId,
   type Order,
-  type OrderStatus,
   type Product,
 } from "@/lib/cantina-data";
+import { useCantinaStore } from "@/hooks/use-cantina-store";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
