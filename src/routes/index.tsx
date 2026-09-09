@@ -326,13 +326,8 @@ function Index() {
       <div className="mx-auto -mt-4 max-w-6xl px-4 sm:px-6">
         {view === "cantina" ? (
           <div className="rounded-3xl bg-background pt-8">
-            <AdminPanel
-              orders={orders}
-              products={products}
-              onAdvance={advance}
-              onStock={updateStock}
-              onCreate={createProduct}
-            />
+            <AdminPanel store={store} />
+
 
           </div>
         ) : (
