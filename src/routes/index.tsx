@@ -285,6 +285,27 @@ function Index() {
                               className="rounded-2xl"
                             />
                           </div>
+
+                          <div>
+                            <p className="mb-2 text-sm font-semibold">
+                              Datos para la factura <span className="font-normal text-muted-foreground">(opcional)</span>
+                            </p>
+                            <div className="grid gap-2">
+                              <Input
+                                value={customer}
+                                onChange={(e) => setCustomer(e.target.value)}
+                                placeholder="Nombre o razón social"
+                                className="rounded-2xl"
+                              />
+                              <Input
+                                value={ruc}
+                                onChange={(e) => setRuc(e.target.value)}
+                                placeholder="RUC / Cédula"
+                                className="rounded-2xl"
+                              />
+                            </div>
+                          </div>
+
                         </div>
                       )}
                     </div>
