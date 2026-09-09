@@ -108,52 +108,21 @@ function Index() {
 
   const confirmOrder = () => {
     if (cart.length === 0) return;
-    const order: Order = {
-      id: crypto.randomUUID(),
-      code: `CU-${1044 + orders.length}`,
+    const order = store.placeOrder({
       student: `${student} Peralta`,
-      items: cart.map((l) => ({ name: l.product.name, qty: l.qty })),
+      items: cart.map((l) => ({ name: l.product.name, qty: l.qty, productId: l.product.id })),
       total,
       payment,
       note,
-      status: "pendiente",
-      time: new Date().toLocaleTimeString("es-PY", { hour: "2-digit", minute: "2-digit" }),
-    };
-    setOrders((prev) => [order, ...prev]);
-    setProducts((prev) =>
-      prev.map((p) => {
-        const line = cart.find((l) => l.product.id === p.id);
-        return line ? { ...p, stock: Math.max(0, p.stock - line.qty) } : p;
-      }),
-    );
+      customer,
+      ruc,
+    });
     setCart([]);
     setNote("");
     setCartOpen(false);
     setTicket(order);
   };
 
-  const advance = (id: string, status: OrderStatus) =>
-    setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
-
-  const updateStock = (id: string, delta: number | "zero" | "reset") =>
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              stock:
-                delta === "zero"
-                  ? 0
-                  : delta === "reset"
-                    ? 10
-                    : Math.max(0, p.stock + delta),
-            }
-          : p,
-      ),
-    );
-
-  const createProduct = (p: Omit<Product, "id">) =>
-    setProducts((prev) => [{ ...p, id: `p${Date.now()}` }, ...prev]);
 
   const signOut = () => {
     setSession(null);
