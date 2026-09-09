@@ -21,13 +21,12 @@ import { LoginScreen } from "@/components/cantina/LoginScreen";
 import {
   categories,
   formatPrice,
-  initialOrders,
-  initialProducts,
   type CategoryId,
   type Order,
-  type OrderStatus,
   type Product,
 } from "@/lib/cantina-data";
+import { useCantinaStore } from "@/hooks/use-cantina-store";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,8 +53,11 @@ type CartLine = { product: Product; qty: number };
 function Index() {
   const [session, setSession] = useState<{ role: "alumno" | "cantina"; name: string } | null>(null);
   const [view, setView] = useState<"alumno" | "cantina">("alumno");
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const store = useCantinaStore();
+  const { products, orders } = store;
+  const [customer, setCustomer] = useState("");
+  const [ruc, setRuc] = useState("");
+
   const [cart, setCart] = useState<CartLine[]>([]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryId | "todas">("todas");
@@ -106,52 +108,21 @@ function Index() {
 
   const confirmOrder = () => {
     if (cart.length === 0) return;
-    const order: Order = {
-      id: crypto.randomUUID(),
-      code: `CU-${1044 + orders.length}`,
+    const order = store.placeOrder({
       student: `${student} Peralta`,
-      items: cart.map((l) => ({ name: l.product.name, qty: l.qty })),
+      items: cart.map((l) => ({ name: l.product.name, qty: l.qty, productId: l.product.id })),
       total,
       payment,
       note,
-      status: "pendiente",
-      time: new Date().toLocaleTimeString("es-PY", { hour: "2-digit", minute: "2-digit" }),
-    };
-    setOrders((prev) => [order, ...prev]);
-    setProducts((prev) =>
-      prev.map((p) => {
-        const line = cart.find((l) => l.product.id === p.id);
-        return line ? { ...p, stock: Math.max(0, p.stock - line.qty) } : p;
-      }),
-    );
+      customer,
+      ruc,
+    });
     setCart([]);
     setNote("");
     setCartOpen(false);
     setTicket(order);
   };
 
-  const advance = (id: string, status: OrderStatus) =>
-    setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
-
-  const updateStock = (id: string, delta: number | "zero" | "reset") =>
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              stock:
-                delta === "zero"
-                  ? 0
-                  : delta === "reset"
-                    ? 10
-                    : Math.max(0, p.stock + delta),
-            }
-          : p,
-      ),
-    );
-
-  const createProduct = (p: Omit<Product, "id">) =>
-    setProducts((prev) => [{ ...p, id: `p${Date.now()}` }, ...prev]);
 
   const signOut = () => {
     setSession(null);
@@ -314,6 +285,27 @@ function Index() {
                               className="rounded-2xl"
                             />
                           </div>
+
+                          <div>
+                            <p className="mb-2 text-sm font-semibold">
+                              Datos para la factura <span className="font-normal text-muted-foreground">(opcional)</span>
+                            </p>
+                            <div className="grid gap-2">
+                              <Input
+                                value={customer}
+                                onChange={(e) => setCustomer(e.target.value)}
+                                placeholder="Nombre o razón social"
+                                className="rounded-2xl"
+                              />
+                              <Input
+                                value={ruc}
+                                onChange={(e) => setRuc(e.target.value)}
+                                placeholder="RUC / Cédula"
+                                className="rounded-2xl"
+                              />
+                            </div>
+                          </div>
+
                         </div>
                       )}
                     </div>
@@ -355,13 +347,8 @@ function Index() {
       <div className="mx-auto -mt-4 max-w-6xl px-4 sm:px-6">
         {view === "cantina" ? (
           <div className="rounded-3xl bg-background pt-8">
-            <AdminPanel
-              orders={orders}
-              products={products}
-              onAdvance={advance}
-              onStock={updateStock}
-              onCreate={createProduct}
-            />
+            <AdminPanel store={store} />
+
 
           </div>
         ) : (
