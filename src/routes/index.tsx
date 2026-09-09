@@ -53,8 +53,11 @@ type CartLine = { product: Product; qty: number };
 function Index() {
   const [session, setSession] = useState<{ role: "alumno" | "cantina"; name: string } | null>(null);
   const [view, setView] = useState<"alumno" | "cantina">("alumno");
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const store = useCantinaStore();
+  const { products, orders } = store;
+  const [customer, setCustomer] = useState("");
+  const [ruc, setRuc] = useState("");
+
   const [cart, setCart] = useState<CartLine[]>([]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryId | "todas">("todas");
